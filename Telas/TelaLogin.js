@@ -49,7 +49,7 @@ const TelaLogin = ( { navigation } ) => {
       />
       <View style={{marginVertical: 5, width: 150}}>
         <Button
-            title='Entrar' onPress={() => navigation.navigate('Cards')}
+            title='Entrar' onPress={() => navigation.navigate('BottomNav')}
             color ='blue'
         />
       </View>

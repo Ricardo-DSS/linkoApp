@@ -1,8 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, View, Image, TextInput, Button } from 'react-native';
+import React from 'react';
+import { View, Button } from 'react-native';
 
-const Cards = () => {
+export default function Cards () {
 
     const decks = ['Matemática', 'Biologia', 'História', 'Física', 'Inglês'];
 
@@ -18,5 +17,3 @@ const Cards = () => {
         </View>
     );
 }
-
-export default Cards;

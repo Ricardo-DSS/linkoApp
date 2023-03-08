@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 //telas
 
@@ -8,29 +8,34 @@ import TelaLogin from './Telas/TelaLogin';
 import TelaCadastrar from './Telas/TelaCadastrar';
 import Cards from './Telas/Cards';
 import Tarefas from './Telas/Tarefas';
-import TelaPrincipal from './Telas/TelaPrincipal';
 
 const Navegar = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Navegar.Navigator initialRouteName="TelaLogin">
-        <Navegar.Screen name="TelaLogin" options={{ headerShown: false }} component={TelaLogin}/>
-        <Navegar.Screen name="TelaCadastrar" options={{ headerShown: false }} component={TelaCadastrar}/>
-        <Navegar.Screen name="Cards" component={Cards}/>
-        <Navegar.Screen name="Main" options={{ headerShown: false }} component={MainNavigator}/>
-      </Navegar.Navigator>
-    </NavigationContainer>
+function BottomNav () {
+  return(
+    <Tab.Navigator>
+      <Tab.Screen name="Cards" component={Cards}/>
+      <Tab.Screen name="Tarefas" component={Tarefas}/>
+    </Tab.Navigator>
   );
 }
 
 function MainNavigator() {
   return (
-    <TelaPrincipal.Navigator>
-      <TelaPrincipal.Screen name="Cards" component={Cards} />
-      <TelaPrincipal.Screen name="Tarefas" component={Tarefas} />
-    </TelaPrincipal.Navigator>
+    <Navegar.Navigator>
+      <Navegar.Screen name="TelaLogin" component={TelaLogin} />
+      <Navegar.Screen name="TelaCadastrar" component={TelaCadastrar} />
+      <Navegar.Screen name="BottomNav" component={BottomNav} options={{ headerShown: false }} />
+    </Navegar.Navigator>
+  );
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <MainNavigator />
+    </NavigationContainer>
   );
 }
 

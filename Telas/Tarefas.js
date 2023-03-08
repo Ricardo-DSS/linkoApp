@@ -1,14 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, View, Image, TextInput, Button, Text } from 'react-native';
+import React from 'react';
+import { View, Text } from 'react-native';
 
-const Tarefas= () => {
-
+export default function Tarefas() {
     return (
         <View>
             <Text>Olá Mundo</Text>
         </View>
     );
 }
-
-export default Tarefas;
