@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import TelaLogin from './Telas/TelaLogin';
 import TelaCadastrar from './Telas/TelaCadastrar';
+import Decks from './Telas/Decks';
 import Cards from './Telas/Cards';
 import Tarefas from './Telas/Tarefas';
 
@@ -15,7 +16,7 @@ const Tab = createBottomTabNavigator();
 function BottomNav () {
   return(
     <Tab.Navigator>
-      <Tab.Screen name="Cards" component={Cards}/>
+      <Tab.Screen name="Decks" component={Decks}/>
       <Tab.Screen name="Tarefas" component={Tarefas}/>
     </Tab.Navigator>
   );
@@ -26,6 +27,7 @@ function MainNavigator() {
     <Navegar.Navigator>
       <Navegar.Screen name="TelaLogin" component={TelaLogin} />
       <Navegar.Screen name="TelaCadastrar" component={TelaCadastrar} />
+      <Navegar.Screen name="Cards" component={Cards} />
       <Navegar.Screen name="BottomNav" component={BottomNav} options={{ headerShown: false }} />
     </Navegar.Navigator>
   );
