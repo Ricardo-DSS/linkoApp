@@ -79,7 +79,7 @@ export default function TelaLogin( { navigation }) {
         />
         <View style={{marginVertical: 5, width: 150}}>
           <Button
-          title='Cadastrar' onPress={() => {}}
+          title='Cadastrar' onPress={navigation.navigate('TelaLogin')}
           color ='blue'
           />
         </View>

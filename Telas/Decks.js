@@ -34,7 +34,9 @@ export default function Decks ({navigation}) {
             <Button
                 key={index}
                 title={deck}
-                onPress={() => {navigation.navigate("Cards")}}
+                onPress={() => {
+                    navigation.navigate('Cards', { title: deck });
+                }}
             />
             </View>
             ))}
