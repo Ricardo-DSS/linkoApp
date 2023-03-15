@@ -1,6 +1,8 @@
+//importar KeyboardAvoidingView para evitar que o teclado cubra elementos
+
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import { StyleSheet, View, Image, TextInput, Button } from 'react-native';
+import { StyleSheet, View, Image, TextInput, Button, Text } from 'react-native';
 
 const TelaLogin = ( { navigation } ) => {
 
@@ -25,8 +27,8 @@ const TelaLogin = ( { navigation } ) => {
           height: 40, 
           width: 300, 
           borderColor: 'darkblue', 
-          borderWidth: 1,
-          borderRadius: 10,
+          borderWidth: 0,
+          borderBottomWidth: 2,
         }}
         value={inputs.usuario}
         onChangeText={(text) => handleInputChange('usuario', text)}
@@ -39,21 +41,22 @@ const TelaLogin = ( { navigation } ) => {
           height: 40, 
           width: 300, 
           borderColor: 'darkblue', 
-          borderWidth: 1,
-          borderRadius: 10,
+          borderWidth: 0,
+          borderBottomWidth: 2
         }}
         value={inputs.senha}
         onChangeText={(text) => handleInputChange('senha', text)}
         placeholder = 'Senha'
         secureTextEntry = {true}
       />
-      <View style={{marginVertical: 5, width: 150}}>
+      <View style={{marginVertical: 5, width: 250}}>
         <Button
             title='Entrar' onPress={() => navigation.navigate('BottomNav')}
             color ='blue'
         />
       </View>
-      <View style={{marginVertical: 5, width: 150}}>
+      <View style={{marginVertical: 5, width: 250, alignItems: 'center'}}>
+      <Text style={{marginTop: 100, marginBottom: 5}}>Ainda não tem uma conta?</Text>
         <Button
         title='Cadastrar' onPress={() => navigation.navigate('TelaCadastrar')}
         color ='blue'

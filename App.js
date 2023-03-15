@@ -9,6 +9,7 @@ import TelaCadastrar from './Telas/TelaCadastrar';
 import Decks from './Telas/Decks';
 import Cards from './Telas/Cards';
 import Tarefas from './Telas/Tarefas';
+import Revisao from './Telas/Revisao';
 
 const Navegar = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -28,6 +29,7 @@ function MainNavigator() {
       <Navegar.Screen name="TelaLogin" component={TelaLogin} />
       <Navegar.Screen name="TelaCadastrar" component={TelaCadastrar} />
       <Navegar.Screen name="Cards" component={Cards} />
+      <Navegar.Screen name="Revisao" component={Revisao}/>
       <Navegar.Screen name="BottomNav" component={BottomNav} options={{ headerShown: false }} />
     </Navegar.Navigator>
   );

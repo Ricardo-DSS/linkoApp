@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Button, Text, TouchableOpacity, StyleSheet, ScrollView, Modal } from 'react-native';
+import { View, Button, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 
-export default function Cards ({ route }) {
+export default function Cards ({ route, navigation }) {
 
     //Essa linha coleta o nome do deck no arquivo 'Decks' e passa para este arquivo aqui, usaremos ele para 
     //para buscar um array com todos os cards com esse nome
@@ -41,7 +41,7 @@ export default function Cards ({ route }) {
             <View style={styles.buttonRevisar}>
             <Button
                 title="Revisar"
-                onPress={() => {}}
+                onPress={() => navigation.navigate('Revisao')}
             />
             </View>
         </View>
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingTop: 10,
+        paddingBottom: 70,
         position: 'relative'
     },
     buttonRevisar: {
@@ -73,5 +74,8 @@ const styles = StyleSheet.create({
         textAlign: "center",
         paddingTop: 70,
         borderRadius: 10
+    },
+    scrollView: {
+        maxHeight: '80%',
     }
 })

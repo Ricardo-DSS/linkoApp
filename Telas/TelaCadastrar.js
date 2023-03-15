@@ -5,16 +5,15 @@ import { StyleSheet, View, Image, TextInput, Button } from 'react-native';
 export default function TelaLogin( { navigation }) {
 
     const [inputs, setInputs] = useState({
-        nome: '',
-        usuario: '',
-        senha: '',
-        repitaSenha: ''
-      });
-      
-      const handleInputChange = (inputName, inputValue) => {
-        setInputs({ ...inputs, [inputName]: inputValue });
-      };
-  
+      nome: '',
+      usuario: '',
+      senha: '',
+      repitaSenha: ''
+    });
+
+    const handleInputChange = (inputName, inputValue) => {
+      setInputs({ ...inputs, [inputName]: inputValue });
+    };
 
     return (
       <View style={styles.container}>
@@ -79,7 +78,7 @@ export default function TelaLogin( { navigation }) {
         />
         <View style={{marginVertical: 5, width: 150}}>
           <Button
-          title='Cadastrar' onPress={navigation.navigate('TelaLogin')}
+          title='Cadastrar' onPress={() => navigation.navigate('TelaLogin')}
           color ='blue'
           />
         </View>
