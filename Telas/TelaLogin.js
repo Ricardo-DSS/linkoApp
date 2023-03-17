@@ -4,6 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet, View, Image, TextInput, Button, Text } from 'react-native';
 
+import { verificarDados } from './Banco/Conect';
+
 const TelaLogin = ( { navigation } ) => {
 
       const [inputs, setInputs] = useState({
@@ -51,15 +53,21 @@ const TelaLogin = ( { navigation } ) => {
       />
       <View style={{marginVertical: 5, width: 250}}>
         <Button
-            title='Entrar' onPress={() => navigation.navigate('BottomNav')}
+            title='Entrar'
             color ='blue'
+            onPress={() => {
+              verificarDados();
+            }}
         />
       </View>
       <View style={{marginVertical: 5, width: 250, alignItems: 'center'}}>
       <Text style={{marginTop: 100, marginBottom: 5}}>Ainda não tem uma conta?</Text>
         <Button
-        title='Cadastrar' onPress={() => navigation.navigate('TelaCadastrar')}
+        title='Cadastrar' 
         color ='blue'
+        onPress={() => {
+          navigation.navigate('TelaCadastrar')
+        }}
         />
       </View>
       <StatusBar style="auto"/>

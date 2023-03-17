@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet, View, Image, TextInput, Button } from 'react-native';
 
+import { inserirUsuario } from './Banco/Conect';
+
 export default function TelaLogin( { navigation }) {
 
     const [inputs, setInputs] = useState({
@@ -78,8 +80,12 @@ export default function TelaLogin( { navigation }) {
         />
         <View style={{marginVertical: 5, width: 150}}>
           <Button
-          title='Cadastrar' onPress={() => navigation.navigate('TelaLogin')}
+          title='Cadastrar' 
           color ='blue'
+          onPress={() => {
+              inserirUsuario(inputs.nome, inputs.usuario, inputs.senha);
+              navigation.navigate('TelaLogin');
+          }}
           />
         </View>
         <StatusBar style="auto"/>
