@@ -45,14 +45,16 @@ export default function Revisao () {
           numColumns={1}
         />
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={handlePreviousCard}>
-            <Text style={styles.buttonText}>Anterior</Text>
+          <TouchableOpacity onPress={handleShowAnswer}>
+            <Text style={styles.buttonText2}>Mostrar Resposta</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={handleShowAnswer}>
-            <Text style={styles.buttonText}>Mostrar Resposta</Text>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handlePreviousCard}>
+            <Text style={styles.buttonText1}>Errei</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={handleNextCard}>
-            <Text style={styles.buttonText}>Próximo</Text>
+          <TouchableOpacity onPress={handleNextCard}>
+            <Text style={styles.buttonText3}>Acertei</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -68,9 +70,8 @@ const styles = StyleSheet.create({
       },
       card: {
         marginTop: 100,
-        width: '80%',
-        height: 300,
-        width: 300,
+        height: 350,
+        width: 350,
         backgroundColor: '#F8F8F8',
         borderRadius: 10,
         justifyContent: 'center',
@@ -92,18 +93,34 @@ const styles = StyleSheet.create({
       },
       buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
         marginTop: 20,
-        marginBottom: 10,
-        width: '80%',
+        marginBottom: 25,
+        width: '100%',
       },
-      buttonText: {
+      buttonText1: {
+        color: 'white',
+        backgroundColor: 'red',
+        padding: 10,
+        paddingHorizontal: 50,
+        borderRadius: 5,
+      },
+      buttonText2: {
         color: 'white',
         backgroundColor: 'blue',
         padding: 10,
+        paddingVertical: 20,
+        paddingHorizontal: 20,
         borderRadius: 5
-      }
+      },
+      buttonText3: {
+        color: 'white',
+        backgroundColor: 'green',
+        padding: 10,
+        paddingHorizontal: 45,
+        borderRadius: 5,
+      },
 });
 
 

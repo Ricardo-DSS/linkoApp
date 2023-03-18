@@ -25,7 +25,7 @@ export default function Cards ({ route, navigation }) {
     //o scrollView funciona somente no android verificar depois
     return(
         <View style={styles.container}>
-            <ScrollView fadingEdgeLength={100}>
+            <ScrollView fadingEdgeLength={10}>
             {cartoes.map((cartao, index) => (
             <TouchableOpacity
                 key={index}
@@ -40,8 +40,9 @@ export default function Cards ({ route, navigation }) {
             </ScrollView>
             <View style={styles.buttonRevisar}>
             <Button
+                color={'#0C63E7'}
                 title="Revisar"
-                onPress={() => navigation.navigate('Revisao')}
+                onPress={() => navigation.navigate('Revisão')}
             />
             </View>
         </View>
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
         width: 250,
         height: 150,
         marginBottom: 10,
-        backgroundColor: '#26abff',
+        backgroundColor: '#FF9100',
         textAlign: "center",
         paddingTop: 70,
         borderRadius: 10

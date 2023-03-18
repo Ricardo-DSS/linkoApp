@@ -34,7 +34,7 @@ const TelaLogin = ( { navigation } ) => {
         }}
         value={inputs.usuario}
         onChangeText={(text) => handleInputChange('usuario', text)}
-        placeholder = 'Nome de usuário'
+        placeholder = 'Email'
       />
       <TextInput
         style={{ 
@@ -56,12 +56,12 @@ const TelaLogin = ( { navigation } ) => {
             title='Entrar'
             color ='blue'
             onPress={() => {
-              verificarDados();
+              navigation.navigate('BottomNav')
             }}
         />
       </View>
       <View style={{marginVertical: 5, width: 250, alignItems: 'center'}}>
-      <Text style={{marginTop: 100, marginBottom: 5}}>Ainda não tem uma conta?</Text>
+      <Text style={{marginTop: 150, marginBottom: 5}}>Ainda não tem uma conta?</Text>
         <Button
         title='Cadastrar' 
         color ='blue'
@@ -70,7 +70,7 @@ const TelaLogin = ( { navigation } ) => {
         }}
         />
       </View>
-      <StatusBar style="auto"/>
+      <StatusBar style='light' backgroundColor='#0D41E1'/>
     </View>
     );
 }

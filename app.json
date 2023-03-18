@@ -4,12 +4,12 @@
     "slug": "linko",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo-sem-fundo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/splashLinko.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#428af8"
     },
     "assetBundlePatterns": [
       "**/*"

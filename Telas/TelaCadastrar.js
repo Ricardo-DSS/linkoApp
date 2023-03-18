@@ -29,8 +29,8 @@ export default function TelaLogin( { navigation }) {
             height: 40, 
             width: 300, 
             borderColor: 'darkblue', 
-            borderWidth: 1,
-            borderRadius: 10,
+            borderWidth: 0,
+            borderBottomWidth: 2
           }}
           value={inputs.nome}
           onChangeText={(text) => handleInputChange('nome', text)}
@@ -42,12 +42,12 @@ export default function TelaLogin( { navigation }) {
             height: 40, 
             width: 300, 
             borderColor: 'darkblue', 
-            borderWidth: 1,
-            borderRadius: 10,
+            borderWidth: 0,
+            borderBottomWidth: 2
           }}
           value={inputs.usuario}
           onChangeText={(text) => handleInputChange('usuario', text)}
-          placeholder = 'Informe um nome de usuário'
+          placeholder = 'Informe seu email'
         />
         <TextInput
           style={{ 
@@ -55,8 +55,8 @@ export default function TelaLogin( { navigation }) {
             height: 40, 
             width: 300, 
             borderColor: 'darkblue', 
-            borderWidth: 1,
-            borderRadius: 10,
+            borderWidth: 0,
+            borderBottomWidth: 2
           }}
           onChangeText={(text) => handleInputChange('senha', text)}
           value={inputs.senha}
@@ -70,8 +70,8 @@ export default function TelaLogin( { navigation }) {
             height: 40, 
             width: 300, 
             borderColor: 'darkblue', 
-            borderWidth: 1,
-            borderRadius: 10,
+            borderWidth: 0,
+            borderBottomWidth: 2
           }}
           onChangeText={(text) => handleInputChange('repitaSenha', text)}
           value={inputs.repitaSenha}
@@ -88,7 +88,7 @@ export default function TelaLogin( { navigation }) {
           }}
           />
         </View>
-        <StatusBar style="auto"/>
+        <StatusBar style='light' backgroundColor='#0D41E1'/>
       </View>
     );
 }

@@ -20,14 +20,17 @@ function inserirUsuario(nome, email, senha) {
 }
 
 function verificarDados() {
-  try{
+  try {
     db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM usuarios', [], (_, { rows }) =>
-        console.log(rows._array)
-      );
+      tx.executeSql("SELECT * FROM usuarios", [], (_, { rows }) => {
+        const rowsArray = rows._array.map((row) => {
+          return `${row.id} - ${row.nome} - ${row.email} - ${row.senha}`;
+        });
+        console.log(rowsArray.join("\n"));
+      });
     });
-  } catch (error){
-    console.log("Não foi possivel", error);
+  } catch (error) {
+    console.log("Não foi possível", error);
   }
 }
 
