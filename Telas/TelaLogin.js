@@ -1,20 +1,33 @@
-//importar KeyboardAvoidingView para evitar que o teclado cubra elementos
-
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, View, Image, TextInput, Button, Text } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, View, Image, TextInput, Button, Text, ToastAndroid } from 'react-native';
 
-import { verificarDados } from './Banco/Conect';
+//banco
+
+import { verificarUsuarioExiste } from './Banco/CadastroUsuario';
 
 const TelaLogin = ( { navigation } ) => {
 
+      let camposPreenchidos = 1;
+
       const [inputs, setInputs] = useState({
-        usuario: '',
+        email: '',
         senha: '',
       });
       
+      useEffect(() => {
+        if(inputs.email.length > 0 && inputs.senha.length > 0) {
+          camposPreenchidos = 1;
+        }
+      }, [inputs]);
+
       const handleInputChange = (inputName, inputValue) => {
         setInputs({ ...inputs, [inputName]: inputValue });
+      };
+
+      const isEmailValid = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
       };
 
     return (
@@ -32,10 +45,14 @@ const TelaLogin = ( { navigation } ) => {
           borderWidth: 0,
           borderBottomWidth: 2,
         }}
-        value={inputs.usuario}
-        onChangeText={(text) => handleInputChange('usuario', text)}
+        value={inputs.email}
+        onChangeText={(text) => handleInputChange('email', text)}
         placeholder = 'Email'
+        keyboardType='email-address'
       />
+      {inputs.email.length > 0 && !isEmailValid(inputs.email) && (
+        <Text style={styles.errorText}>E-mail inválido</Text>
+      )}
       <TextInput
         style={{ 
           marginTop: 10,
@@ -50,13 +67,28 @@ const TelaLogin = ( { navigation } ) => {
         onChangeText={(text) => handleInputChange('senha', text)}
         placeholder = 'Senha'
         secureTextEntry = {true}
+        maxLength={8}
       />
       <View style={{marginVertical: 5, width: 250}}>
         <Button
             title='Entrar'
             color ='blue'
             onPress={() => {
-              navigation.navigate('BottomNav')
+              if(camposPreenchidos === 1) {
+                  verificarUsuarioExiste(inputs.email, inputs.senha)
+                  .then((usuarioCadastrado) => {
+                    if (usuarioCadastrado) {
+                      navigation.navigate('BottomNav');
+                    } else {
+                      ToastAndroid.show('Email ou senha incorretos', ToastAndroid.LONG);
+                    }
+                  })
+                  .catch((error) => {
+                    console.log("Erro ao verificar usuário:", error);
+                  });
+              } else {
+                ToastAndroid.show('Preencha os campos!', ToastAndroid.LONG);
+              }
             }}
         />
       </View>
@@ -81,6 +113,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    errorText: {
+      color: 'red',
+      marginBottom: 10,
+      fontWeight: 'bold'
     },
 });
 

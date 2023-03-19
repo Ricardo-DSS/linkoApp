@@ -1,20 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, View, Image, TextInput, Button } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, View, Image, TextInput, Button, ToastAndroid, Text } from 'react-native';
 
-import { inserirUsuario } from './Banco/Conect';
+import { cadastrarUsuario, verificarUsuarioExiste } from './Banco/CadastroUsuario';
 
 export default function TelaLogin( { navigation }) {
 
+    let camposPreenchidos = 0;
+
     const [inputs, setInputs] = useState({
       nome: '',
-      usuario: '',
+      email: '',
       senha: '',
       repitaSenha: ''
     });
-
+  
     const handleInputChange = (inputName, inputValue) => {
       setInputs({ ...inputs, [inputName]: inputValue });
+    };
+
+    useEffect(() => {
+      if(inputs.nome.length > 0 && inputs.email.length > 0 && inputs.senha.length > 0 && inputs.repitaSenha.length > 0) {
+        camposPreenchidos = 1;
+      }
+    }, [inputs]);
+
+    const isEmailValid = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
     };
 
     return (
@@ -33,7 +46,7 @@ export default function TelaLogin( { navigation }) {
             borderBottomWidth: 2
           }}
           value={inputs.nome}
-          onChangeText={(text) => handleInputChange('nome', text)}
+          onChangeText={(text) => handleInputChange("nome", text)}
           placeholder = 'Nome'
         />
         <TextInput
@@ -45,10 +58,14 @@ export default function TelaLogin( { navigation }) {
             borderWidth: 0,
             borderBottomWidth: 2
           }}
-          value={inputs.usuario}
-          onChangeText={(text) => handleInputChange('usuario', text)}
+          value={inputs.email}
+          onChangeText={(text) => handleInputChange("email", text)}
           placeholder = 'Informe seu email'
+          keyboardType='email-address'
         />
+        {inputs.email.length > 0 && !isEmailValid(inputs.email) && (
+        <Text style={styles.errorText}>E-mail inválido</Text>
+        )}
         <TextInput
           style={{ 
             marginTop: 10,
@@ -58,10 +75,11 @@ export default function TelaLogin( { navigation }) {
             borderWidth: 0,
             borderBottomWidth: 2
           }}
-          onChangeText={(text) => handleInputChange('senha', text)}
           value={inputs.senha}
+          onChangeText={(text) => handleInputChange("senha", text)}
           placeholder = 'Senha'
           secureTextEntry = {true}
+          maxLength={8}
         />
         <TextInput
           style={{ 
@@ -73,18 +91,38 @@ export default function TelaLogin( { navigation }) {
             borderWidth: 0,
             borderBottomWidth: 2
           }}
-          onChangeText={(text) => handleInputChange('repitaSenha', text)}
           value={inputs.repitaSenha}
-          placeholder = 'Senha'
+          onChangeText={(text) => handleInputChange("repitaSenha", text)}
+          placeholder = 'Repita Senha'
           secureTextEntry = {true}
+          maxLength={8}
         />
         <View style={{marginVertical: 5, width: 150}}>
           <Button
           title='Cadastrar' 
           color ='blue'
           onPress={() => {
-              inserirUsuario(inputs.nome, inputs.usuario, inputs.senha);
-              navigation.navigate('TelaLogin');
+              if(camposPreenchidos === 1) {
+                if(inputs.senha === inputs.repitaSenha){
+                  verificarUsuarioExiste(inputs.email, inputs.senha)
+                  .then((usuarioCadastrado) => {
+                    if (usuarioCadastrado) {
+                      ToastAndroid.show('Usuário já tem cadastro', ToastAndroid.LONG);
+                    } else {
+                      cadastrarUsuario(inputs.nome, inputs.email, inputs.senha);
+                      ToastAndroid.show('Cadastro realizado', ToastAndroid.LONG);
+                      navigation.navigate('TelaLogin');
+                    }
+                  })
+                  .catch((error) => {
+                    console.log("Erro ao verificar usuário:", error);
+                  });
+                } else {
+                  ToastAndroid.show('As senhas estão diferentes!', ToastAndroid.LONG);
+                }
+              } else {
+                ToastAndroid.show('Preencha os campos!', ToastAndroid.LONG);
+              }
           }}
           />
         </View>

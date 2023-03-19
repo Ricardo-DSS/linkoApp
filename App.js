@@ -12,6 +12,10 @@ import Cards from './Telas/Cards';
 import Tarefas from './Telas/Tarefas';
 import Revisao from './Telas/Revisao';
 
+//banco
+
+import { criarTabelas } from './Telas/Banco/Connect';
+
 const Navegar = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -54,6 +58,7 @@ function MainNavigator() {
 }
 
 export default function App() {
+  criarTabelas();
   return (
     <NavigationContainer>
       <MainNavigator />
