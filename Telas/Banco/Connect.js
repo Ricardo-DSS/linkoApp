@@ -8,6 +8,9 @@ function criarTabelas() {
       tx.executeSql(
         'CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, email TEXT NOT NULL UNIQUE, senha TEXT NOT NULL)'
       );      
+      tx.executeSql(
+        'CREATE TABLE IF NOT EXISTS decks (id INTEGER PRIMARY KEY AUTOINCREMENT, idUsuario INTEGER NOT NULL, nomeDeck TEXT NOT NULL)'
+      );
     });
     console.log('Tabelas criadas/existem');
   } catch (error) {

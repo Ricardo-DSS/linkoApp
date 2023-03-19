@@ -77,8 +77,8 @@ const TelaLogin = ( { navigation } ) => {
               if(camposPreenchidos === 1) {
                   verificarUsuarioExiste(inputs.email, inputs.senha)
                   .then((usuarioCadastrado) => {
-                    if (usuarioCadastrado) {
-                      navigation.navigate('BottomNav');
+                    if (usuarioCadastrado) { 
+                      navigation.navigate('BottomNav', {screen: 'Decks', params: { inputs }});
                     } else {
                       ToastAndroid.show('Email ou senha incorretos', ToastAndroid.LONG);
                     }
