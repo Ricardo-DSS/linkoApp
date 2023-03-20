@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 
-const CARD_DATA = [
-  { id: 1, question: 'What is React?', answer: 'Resposta1' },
-  { id: 2, question: 'What is JSX?', answer: 'Resposta2' },
-  { id: 3, question: 'What is a component?', answer: 'Resposta3' },
-  { id: 4, question: 'Quem descobriu o brasil?', answer: 'Resposta4' }
-];
+//banco
 
-export default function Revisao () {
+import { revisar } from './Banco/ConsultarRevisao';
+
+export default function Revisao ({ navigation }) {
+
+    const {inputs, title} = useRoute().params;
+
+    const [CARD_DATA, setCardData] = useState([]);
+
+    useEffect(() => {
+      revisar(title, inputs.email)
+        .then(cards => {
+          try {
+            setCardData(cards);
+          } catch (error) {
+            console.error(error);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }, []);
+    
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [showAnswer, setShowAnswer] = useState(false);
   
@@ -16,13 +33,8 @@ export default function Revisao () {
       if (currentCardIndex < CARD_DATA.length - 1) {
         setCurrentCardIndex(currentCardIndex + 1);
         setShowAnswer(false);
-      }
-    };
-  
-    const handlePreviousCard = () => {
-      if (currentCardIndex > 0) {
-        setCurrentCardIndex(currentCardIndex - 1);
-        setShowAnswer(false);
+      } else {
+        navigation.goBack();
       }
     };
   
@@ -32,25 +44,27 @@ export default function Revisao () {
   
     const renderItem = ({ item }) => (
       <View style={styles.card}>
-        <Text style={styles.cardText}>{showAnswer ? item.answer : item.question}</Text>
+        <Text style={styles.cardText}>{showAnswer ? item.resposta : item.pergunta}</Text>
       </View>
     );
   
     return (
       <View style={styles.container}>
-        <FlatList
+        {CARD_DATA.length > 0 && (
+          <FlatList
           data={[CARD_DATA[currentCardIndex]]}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()}
           numColumns={1}
         />
+        )}
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={handleShowAnswer}>
             <Text style={styles.buttonText2}>Mostrar Resposta</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={handlePreviousCard}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.buttonText1}>Errei</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleNextCard}>

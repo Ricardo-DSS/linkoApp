@@ -149,7 +149,7 @@ export default function Cards ({ navigation }) {
             <Button
                 color={'#0C63E7'}
                 title="Revisão"
-                onPress={() => navigation.navigate('Revisão')}
+                onPress={() => navigation.navigate('Revisão', {inputs, title})}
             />
             </View>
         </View>
