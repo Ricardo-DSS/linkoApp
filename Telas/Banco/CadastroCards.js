@@ -18,7 +18,7 @@ function atualizarCard(novaPergunta, novaResposta, perguntaAntiga, respostaAntig
     try {
         db.transaction((tx) => {
             tx.executeSql(
-                'UPDATE cards SET pergunta = ?, reposta = ? where pergunta = ? and resposta = ? and nomeDeck = ? and idUsuario = ?',
+                'UPDATE cards SET pergunta = ?, resposta = ? where pergunta = ? and resposta = ? and nomeDeck = ? and idUsuario = ?',
                 [novaPergunta, novaResposta, perguntaAntiga, respostaAntiga, nomeDeck, id]
             );
         });
@@ -28,8 +28,18 @@ function atualizarCard(novaPergunta, novaResposta, perguntaAntiga, respostaAntig
     }
 }
 
-function deletarCard() {
-
+function deletarCard(pergunta, resposta, nomeDeck, id) {
+    try {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'DELETE FROM cards where pergunta = ? and resposta = ? and nomeDeck = ? and idUsuario = ?',
+          [pergunta, resposta, nomeDeck, id]
+        );
+      });
+      console.log('Deletado');
+    } catch (error) {
+      console.log('Não foi possível deletar', error);
+    }
 }
 
 function obterPerguntas(nomeDeck, id) {
@@ -80,4 +90,4 @@ function obterRespostas(nomeDeck, id) {
       });
 }
 
-export { obterPerguntas, obterRespostas, inserirCartao, atualizarCard };
+export { obterPerguntas, obterRespostas, inserirCartao, atualizarCard, deletarCard };

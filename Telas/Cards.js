@@ -4,7 +4,7 @@ import { useRoute } from '@react-navigation/native';
 
 //banco
 
-import { obterPerguntas, obterRespostas, inserirCartao, atualizarCard } from './Banco/CadastroCards';
+import { obterPerguntas, obterRespostas, inserirCartao, atualizarCard, deletarCard } from './Banco/CadastroCards';
 
 export default function Cards ({ navigation }) {
 
@@ -26,7 +26,7 @@ export default function Cards ({ navigation }) {
           .catch((error) => {
             console.log('Erro ao obter perguntas e respostas:', error);
           });
-      }, [title, inputs.email, perguntas, respostas]);
+      }, [perguntas]);
 
     //Variaveis para o modal INSERIR cards
     const [pergunta, setTextPergunta] = useState('');
@@ -52,6 +52,32 @@ export default function Cards ({ navigation }) {
     };
 
     //Modal que abre para ATUALIZAR cards
+    const [modalVisible1, setModalVisible1] = useState(false);
+    const [oldQuestion, setOldQuestion] = useState(null);
+    const [oldAnswer, setOldAnswer] = useState(null);
+    const [updateQuestion, setUpdateQuestion] = useState(updateQuestion);
+    const handleSetUpdateQuestion = (updateQuestion) => {
+        setUpdateQuestion(updateQuestion);
+    }
+    const [updateAnswer, setUpdateAnswer] = useState(updateAnswer);
+    const handleSetUpdateAnswer= (updateAnswer) => {
+        setUpdateAnswer(updateAnswer);
+    }
+    const mostrarOpcoes = (i) => {
+        setOldQuestion(perguntas[i]);
+        setOldAnswer(respostas[i]);
+        setUpdateQuestion(perguntas[i]);
+        setUpdateAnswer(respostas[i]);
+        setModalVisible1(true);
+    }
+    const handleDelete = () => {
+        deletarCard(oldQuestion, oldAnswer, title, inputs.email);
+        setModalVisible1(false);
+    };
+    const handleUpdate = () => {
+        atualizarCard(updateQuestion, updateAnswer, oldQuestion, oldAnswer, title, inputs.email);
+        setModalVisible1(false);
+    };
 
     return(
         <View style={styles.container}>
@@ -61,7 +87,7 @@ export default function Cards ({ navigation }) {
                         <View key={index}>    
                             <TouchableOpacity
                                 key={index}
-                                onPress={() => {}}
+                                onPress={() => mostrarOpcoes(index)}
                                 style={styles.touchableOpacityStyle}>
                                 <Text style={styles.buttonText}>{pergunt}</Text>
                             </TouchableOpacity>
@@ -69,6 +95,31 @@ export default function Cards ({ navigation }) {
                     ))}
                 </View>
             </ScrollView>
+
+            <Modal visible={modalVisible1} onRequestClose={() => setModalVisible1(false)} animationType='slide'>
+                <View style={styles.modalContainer}>
+                    <TextInput 
+                        style={styles.input}
+                        placeholder="Pergunta Atualizada"
+                        value = {updateQuestion}
+                        onChangeText={handleSetUpdateQuestion}
+                    />
+                    <TextInput 
+                        style={styles.input}
+                        placeholder="Resposta Atualizada"
+                        value = {updateAnswer}
+                        onChangeText={handleSetUpdateAnswer}
+                    />
+                    <View>
+                        <View style={{marginBottom: 50}}>
+                            <Button title="Atualizar" onPress={handleUpdate} />
+                        </View>
+                        <View>
+                            <Button title="Deletar" color={'red'} onPress={handleDelete} />
+                        </View>
+                    </View>
+                </View>
+            </Modal>
 
             <Modal visible={isModalVisible} animationType="slide">
                 <View style={styles.modalContainer}>
