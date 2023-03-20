@@ -1,13 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Button, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 
-export default function Cards ({ route, navigation }) {
+//banco
 
-    //Essa linha coleta o nome do deck no arquivo 'Decks' e passa para este arquivo aqui, usaremos ele para 
-    //para buscar um array com todos os cards com esse nome
-    const { title } = route.params;
+import { obterPerguntas, obterRespostas, inserirCartao, atualizarCard } from './Banco/CadastroCards';
 
-    //Modal
+export default function Cards ({ navigation }) {
+
+    //variáveis exportadas da telaDecks para serem usadas no registro do banco
+    const {inputs, title} = useRoute().params;
+
+    const [perguntas, setPerguntas] = useState([]);
+    const [respostas, setRespostas] = useState([]);
+
+    useEffect(() => {
+        Promise.all([
+          obterPerguntas(title, inputs.email),
+          obterRespostas(title, inputs.email)
+        ])
+          .then(([cardEncontrado, respostaEncontrada]) => {
+            setPerguntas(cardEncontrado);
+            setRespostas(respostaEncontrada);
+          })
+          .catch((error) => {
+            console.log('Erro ao obter perguntas e respostas:', error);
+          });
+      }, [title, inputs.email, perguntas, respostas]);
+
+    //Variaveis para o modal INSERIR cards
+    const [pergunta, setTextPergunta] = useState('');
+    const handlePergunta = (pergunta) => {
+        setTextPergunta(pergunta);
+    };
+    const [resposta, setTextResposta] = useState('');
+    const handleResposta= (resposta) => {
+        setTextResposta(resposta);
+    };
+
+    //Modal para INSERIR de cards
     const [isModalVisible, setIsModalVisible] = useState(false);
     const handleModalOpen = () => {
         setIsModalVisible(true);
@@ -15,34 +46,49 @@ export default function Cards ({ route, navigation }) {
     const handleModalClose = () => {
         setIsModalVisible(false);
     };
-
-    //Variaveis para os dados inseridos nos campos
-    const [inputs, setInputs] = useState({
-        pergunta: '',
-        resposta: '',
-      });
-    const handleInputChange = (inputName, inputValue) => {
-    setInputs({ ...inputs, [inputName]: inputValue });
+    const handleSave = () => {
+        inserirCartao(pergunta, resposta, title, inputs.email);
+        handleModalClose();
     };
-    
-    const cartoes  = ['(Pergunta-1)', '(Pergunta-2)', '(Pergunta-3)', '(Pergunta-4)', '(Pergunta-5)', '(Pergunta-6)'];
-    const repostas = ['(Resposta-1)', '(Resposta-2)', '(Resposta-3)', '(Resposta-4)', '(Resposta-5)', '(Resposta-6)'];
+
+    //Modal que abre para ATUALIZAR cards
 
     return(
         <View style={styles.container}>
             <ScrollView fadingEdgeLength={10}>
-            {cartoes.map((cartao, index) => (
-            <TouchableOpacity
-                key={index}
-                title={cartao}
-                onPress={() => {}}
-            >
-                <View>
-                <Text style={styles.cardView}>{cartao}</Text>
+                <View style={styles.buttonDecks}>
+                    {perguntas.map((pergunt, index) => (
+                        <View key={index}>    
+                            <TouchableOpacity
+                                key={index}
+                                onPress={() => {}}
+                                style={styles.touchableOpacityStyle}>
+                                <Text style={styles.buttonText}>{pergunt}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ))}
                 </View>
-            </TouchableOpacity>
-            ))}
             </ScrollView>
+
+            <Modal visible={isModalVisible} animationType="slide">
+                <View style={styles.modalContainer}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Pergunta"
+                    onChangeText={handlePergunta}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Resposta"
+                    onChangeText={handleResposta}
+                />
+                <View style={styles.buttonContainer}>
+                    <Button title="Cancelar" onPress={handleModalClose} />
+                    <Button title="Salvar" onPress={handleSave} />
+                </View>
+                </View>
+            </Modal>
+
             <View style={styles.buttonRevisar}>
             <Button
                 color={'#0C63E7'}
@@ -55,26 +101,6 @@ export default function Cards ({ route, navigation }) {
                 onPress={() => navigation.navigate('Revisão')}
             />
             </View>
-            <Modal visible={isModalVisible} animationType="slide">
-                <View style={styles.modalContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Pergunta"
-                    value={inputs.pergunta}
-                    onChangeText={(text) => handleInputChange('pergunta', text)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Resposta"
-                    value={inputs.resposta}
-                    onChangeText={(text) => handleInputChange('resposta', text)}
-                />
-                <View style={styles.buttonContainer}>
-                    <Button title="Cancelar" onPress={handleModalClose} />
-                    <Button title="Salvar" onPress={handleModalClose} />
-                </View>
-                </View>
-            </Modal>
         </View>
     );
 }
@@ -98,14 +124,26 @@ const styles = StyleSheet.create({
         left: 10,
         right: 10,
     },
-    cardView: {
-        width: 300,
-        height: 150,
-        marginBottom: 10,
+    buttonDecks: {
+        flexDirection: 'column',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    touchableOpacityStyle: {
         backgroundColor: '#FF9100',
-        textAlign: "center",
-        paddingTop: 70,
-        borderRadius: 10
+        width: 300,
+        height: 100,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 5,
+    },
+    buttonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
     scrollView: {
         maxHeight: '80%',

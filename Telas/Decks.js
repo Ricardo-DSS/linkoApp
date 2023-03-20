@@ -74,13 +74,12 @@ export default function Decks ({ navigation }) {
                         <TouchableOpacity
                             key={index}
                             onPress={() => {
-                                navigation.navigate('Cards', { title: deck });
+                                navigation.navigate('Cards', {inputs, title: deck});
                             }}
                             onLongPress={() => mostrarOpcoes(deck)}
                             style={styles.touchableOpacityStyle}>
                             <Text style={styles.buttonText}>{deck}</Text>
                         </TouchableOpacity>
-
                     </View>
                     ))}
                 </View>
