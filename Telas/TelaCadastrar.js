@@ -103,22 +103,26 @@ export default function TelaLogin( { navigation }) {
           color ='blue'
           onPress={() => {
               if(camposPreenchidos === 1) {
-                if(inputs.senha === inputs.repitaSenha){
-                  verificarUsuarioExiste(inputs.email, inputs.senha)
-                  .then((usuarioCadastrado) => {
-                    if (usuarioCadastrado) {
-                      ToastAndroid.show('Usuário já tem cadastro', ToastAndroid.LONG);
-                    } else {
-                      cadastrarUsuario(inputs.nome, inputs.email, inputs.senha);
-                      ToastAndroid.show('Cadastro realizado', ToastAndroid.LONG);
-                      navigation.navigate('TelaLogin');
-                    }
-                  })
-                  .catch((error) => {
-                    console.log("Erro ao verificar usuário:", error);
-                  });
+                if(inputs.senha.length < 8) {
+                  ToastAndroid.show('A senha precisa ter 8 caracteres!', ToastAndroid.LONG);
                 } else {
-                  ToastAndroid.show('As senhas estão diferentes!', ToastAndroid.LONG);
+                  if(inputs.senha === inputs.repitaSenha){
+                    verificarUsuarioExiste(inputs.email, inputs.senha)
+                    .then((usuarioCadastrado) => {
+                      if (usuarioCadastrado) {
+                        ToastAndroid.show('Usuário já tem cadastro', ToastAndroid.LONG);
+                      } else {
+                        cadastrarUsuario(inputs.nome, inputs.email, inputs.senha);
+                        ToastAndroid.show('Cadastro realizado', ToastAndroid.LONG);
+                        navigation.navigate('TelaLogin');
+                      }
+                    })
+                    .catch((error) => {
+                      console.log("Erro ao verificar usuário:", error);
+                    });
+                  } else {
+                    ToastAndroid.show('As senhas estão diferentes!', ToastAndroid.LONG);
+                  }
                 }
               } else {
                 ToastAndroid.show('Preencha os campos!', ToastAndroid.LONG);

@@ -28,7 +28,7 @@ function BottomNav () {
 
           if (route.name === 'Decks') {
             iconName = 'list';
-          } else if (route.name === 'Tarefas') {
+          } else if (route.name === 'Versão') {
             iconName = 'checkmark-circle';
           }
 
@@ -40,7 +40,7 @@ function BottomNav () {
       })}
     >
       <Tab.Screen name="Decks" component={Decks} options={{ headerStyle: {backgroundColor: '#0C63E7'}, headerTintColor: '#fff' }}/>
-      <Tab.Screen name="Tarefas" component={Tarefas} options={{ headerStyle: {backgroundColor: '#0C63E7'}, headerTintColor: '#fff' }}/>
+      <Tab.Screen name="Versão" component={Tarefas} options={{ headerStyle: {backgroundColor: '#0C63E7'}, headerTintColor: '#fff' }}/>
     </Tab.Navigator>
   );
 }

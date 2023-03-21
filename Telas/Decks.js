@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, StyleSheet, Modal, TextInput, TouchableOpacity, Text, ScrollView} from 'react-native';
+import { View, Button, StyleSheet, Modal, TextInput, TouchableOpacity, Text, ScrollView, ToastAndroid} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useRoute } from '@react-navigation/native';
 
@@ -44,8 +44,13 @@ export default function Decks ({ navigation }) {
         setIsModalVisible(false);
     };
     const handleSave = () => {
-        inserirDeck(inputs.email, text);
-        handleModalClose();
+        if(text.length > 1){
+            inserirDeck(inputs.email, text);
+            setText('');
+            handleModalClose();
+        } else {
+            ToastAndroid.show('Preencha o campo!', ToastAndroid.LONG);
+        }
     };
 
     //modal que abre para ATUALIZAR E DELETAR decks
